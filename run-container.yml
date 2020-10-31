@@ -1,0 +1,11 @@
+- hosts: all
+  tasks:          
+        - name: Create a httpd server container
+          become: yes
+          community.general.docker_container:
+                 name: webserver
+                 image: httpd
+                 ports:
+                       - "80:80"
+                 volumes:
+                       - /home/dark/http_files/:/var/www/html

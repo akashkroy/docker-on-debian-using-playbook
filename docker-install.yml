@@ -1,0 +1,48 @@
+- hosts: all
+  tasks:
+        - name: Update the apt package index
+          become: yes
+          apt:
+                  name: "*"
+                  state: latest
+                  update_cache: yes
+        - name: Install packages to allow apt to use a repository over HTTPS
+          become: yes
+          vars:
+                          package_name:
+                                  - git
+                                  - apt-transport-https
+                                  - ca-certificates
+                                  - curl
+                                  - gnupg-agent
+                                  - software-properties-common
+          apt:
+                  name: "{{ package_name }}"
+                  state: latest
+
+        - name: Add Apt signing key from Docker official repo
+          become: yes
+          apt_key:
+                  url: https://download.docker.com/linux/debian/gpg
+                  state: present
+
+        - name: Add docker official repo
+          become: yes
+          apt_repository:
+                  repo: deb [arch=amd64] https://download.docker.com/linux/debian buster stable 
+                  state: present
+
+        - name: Index new repo into apt
+          become: yes
+          apt:
+                    name: "*"
+                    state: latest
+                    update_cache: yes
+
+        - name: Installing Docker for real 
+          become: yes
+          apt:
+                  name: "docker-ce"
+                  state: latest
+
+

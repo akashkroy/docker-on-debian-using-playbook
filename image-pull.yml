@@ -1,0 +1,12 @@
+- hosts: all
+  tasks:
+       - name: pull httpd image
+         become: yes
+         community.general.docker_image:
+                                       name: httpd
+                                       source: pull
+
+       - name: Create a directory if it doesnt exist
+         file: 
+             path: /home/dark/http_files
+             state: directory

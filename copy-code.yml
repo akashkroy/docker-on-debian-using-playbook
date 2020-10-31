@@ -1,0 +1,6 @@
+- hosts: all
+  tasks:
+          - name: Deploying own html file
+            copy:
+                 content: "Hello Akash, Welcome to your website"
+                 dest: /home/dark/http_files/hello.html
